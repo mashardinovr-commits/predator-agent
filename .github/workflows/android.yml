@@ -3,7 +3,9 @@ on: [push, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    env:
+      ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: true
     steps:
       - uses: actions/checkout@v4
 
@@ -21,8 +23,8 @@ jobs:
 
       - name: Build APK
         run: |
-          # Fayl nomini to'g'rilash
-          [ -f mainpredator.py ] && mv mainpredator.py main.py
+          # Fayl nomini tekshirish va to'g'rilash
+          if [ -f mainpredator.py ]; then mv mainpredator.py main.py; fi
           yes | buildozer -v android debug
 
       - name: Upload APK
