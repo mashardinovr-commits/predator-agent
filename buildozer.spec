@@ -19,7 +19,7 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0.0
 
 # (list) Kerakli kutubxonalar (Requests va Kivy shart!)
-requirements = python3,kivy==2.3.0,requests,urllib3,certifi,idna
+requirements = python3,kivy==2.3.0,requests
 
 
 # (str) Asosiy ekran holati (portrait, landscape yoki all)
