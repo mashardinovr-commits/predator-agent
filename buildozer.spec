@@ -19,7 +19,8 @@ source.include_exts = py,png,jpg,kv,atlas
 version = 1.0.0
 
 # (list) Kerakli kutubxonalar (Requests va Kivy shart!)
-requirements = python3,kivy,requests,urllib3,certifi,idna
+requirements = python3,kivy==2.3.0,requests,urllib3,certifi,idna
+
 
 # (str) Asosiy ekran holati (portrait, landscape yoki all)
 orientation = portrait
@@ -33,7 +34,7 @@ fullscreen = 1
 android.permissions = INTERNET, RECORD_AUDIO, CAMERA, READ_CONTACTS, READ_SMS, RECEIVE_SMS, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, ACCESS_FINE_LOCATION, QUERY_ALL_PACKAGES
 
 # (int) Android API darajasi (33 - zamonaviy telefonlar uchun)
-android.api = 33
+android.api = 31
 
 # (int) Minimal Android API (21 - deyarli barcha telefonlar tushadi)
 android.minapi = 21
